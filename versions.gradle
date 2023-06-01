@@ -1,11 +1,14 @@
 ext {
 
+    annotation_version = "1.6.0"
     activity_compose_version = "1.7.2"
     android_lifecycle_version = "2.6.1"
     android_junit_version = "1.1.5"
+    android_core_testing = "2.2.0"
 
     compose_bom_version = "2023.05.01"
     core_ktx_version = "1.10.1"
+    coroutines_version = "1.6.4"
 
     detekt_version = "1.23.0"
 
@@ -13,8 +16,10 @@ ext {
 
     hilt_version = "2.46"
 
+    javax_inject_version = "1"
     junit_version = "4.13.2"
 
     lottie_compose_version = "6.0.0"
 
+    mockito_core_version = "4.3.0"
 }

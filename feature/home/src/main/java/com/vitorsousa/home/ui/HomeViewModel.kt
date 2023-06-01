@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
             touristSpotList = getTouristSpotUseCase.invoke(SPOTS_LIMIT)
                 .stateIn(
                     scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000L),
+                    started = SharingStarted.WhileSubscribed(5_000),
                     initialValue = emptyList()
                 )
         )

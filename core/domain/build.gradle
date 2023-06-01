@@ -2,7 +2,6 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -36,14 +35,19 @@ android {
 }
 
 dependencies {
+
     implementation project(":core:model")
     implementation project(":core:data")
+    implementation project(":core:testing")
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
 
-    //Hilt
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "javax.inject:javax.inject:$javax_inject_version"
+
+    implementation "androidx.arch.core:core-testing:$android_core_testing"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_core_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_core_version"
 }
