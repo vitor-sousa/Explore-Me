@@ -5,8 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.vitorsousa.home.R
 import com.vitorsousa.home.data.City
 import com.vitorsousa.home.data.TouristSpot
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+): ViewModel() {
 
     var state = mutableStateOf<UiState>(UiState.Loading)
 

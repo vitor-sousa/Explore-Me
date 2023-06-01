@@ -16,3 +16,4 @@ rootProject.name = "Explore Me"
 include ':app'
 include ':feature'
 include ':feature:home'
+include ':core'
