@@ -1,4 +1,4 @@
-package com.vitorsousa.home.data
+package com.vitorsousa.model.data
 
 import androidx.annotation.DrawableRes
 

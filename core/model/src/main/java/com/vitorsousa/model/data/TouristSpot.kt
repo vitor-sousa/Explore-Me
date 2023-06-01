@@ -1,7 +1,7 @@
-package com.vitorsousa.home.data
+package com.vitorsousa.model.data
 
 import androidx.annotation.DrawableRes
-import com.vitorsousa.home.R
+import com.vitorsousa.model.R
 
 data class TouristSpot(
     val id: String,

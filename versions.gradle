@@ -1,0 +1,18 @@
+ext {
+
+    activity_compose_version = "1.7.2"
+    android_lifecycle_version = "2.6.1"
+    android_junit_version = "1.1.5"
+
+    compose_bom_version = "2023.05.01"
+    core_ktx_version = "1.10.1"
+
+    espresso_core_version = "3.5.1"
+
+    hilt_version = "2.46"
+
+    junit_version = "4.13.2"
+
+    lottie_compose_version = "6.0.0"
+
+}
