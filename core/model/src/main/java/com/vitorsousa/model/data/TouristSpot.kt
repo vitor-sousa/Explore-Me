@@ -11,7 +11,7 @@ data class TouristSpot(
 ) {
 
     companion object {
-        fun SampleList() = listOf(
+        fun generateSampleList() = listOf(
             TouristSpot("1", "Cristo", R.drawable.img_rio_de_janeiro),
             TouristSpot("2", "Cristo", R.drawable.img_rio_de_janeiro),
             TouristSpot("3", "Cristo", R.drawable.img_rio_de_janeiro),

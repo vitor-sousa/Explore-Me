@@ -3,7 +3,6 @@ package com.vitorsousa.home.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +23,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -206,5 +204,5 @@ private fun SpotSightItemPreview() {
 @Preview(showBackground = true, widthDp = 480)
 @Composable
 private fun SpotSightFeedPreview() {
-    SpotSightFeed(touristSpotList = TouristSpot.SampleList())
+    SpotSightFeed(touristSpotList = TouristSpot.generateSampleList())
 }

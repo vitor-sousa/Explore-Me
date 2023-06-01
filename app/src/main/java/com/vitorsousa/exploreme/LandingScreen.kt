@@ -14,7 +14,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
 
-private const val SplashWaitTime: Long = 2000
+@Suppress("MagicNumber")
+private const val SPLASH_WAIT_TIME: Long = 2000
 
 @Composable
 fun LandingScreen(onTimeout: () -> Unit, modifier: Modifier = Modifier) {
@@ -23,7 +24,7 @@ fun LandingScreen(onTimeout: () -> Unit, modifier: Modifier = Modifier) {
         val currentOnTimeout by rememberUpdatedState(onTimeout)
 
         LaunchedEffect(Unit) {
-            delay(SplashWaitTime)
+            delay(SPLASH_WAIT_TIME)
             currentOnTimeout()
         }
         LottieLoader()

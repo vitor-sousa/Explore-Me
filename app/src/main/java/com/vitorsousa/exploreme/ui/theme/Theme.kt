@@ -14,6 +14,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.vitorsousa.exploreme.ui.theme.Color.Pink40
+import com.vitorsousa.exploreme.ui.theme.Color.Pink80
+import com.vitorsousa.exploreme.ui.theme.Color.Purple40
+import com.vitorsousa.exploreme.ui.theme.Color.Purple80
+import com.vitorsousa.exploreme.ui.theme.Color.PurpleGrey40
+import com.vitorsousa.exploreme.ui.theme.Color.PurpleGrey80
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
