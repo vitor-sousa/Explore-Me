@@ -8,7 +8,8 @@ import javax.inject.Inject
 class GetTouristSpotUseCase @Inject constructor(
     private val touristSpotRepository: TouristSpotRepository
 ) {
-    operator fun invoke(limit: Int): Flow<List<TouristSpot>> =
-        touristSpotRepository.getSpots(limit)
+    operator fun invoke(language: String, limit: Int): Flow<List<TouristSpot>> =
+        touristSpotRepository.getTopTouristSpots(language, limit)
+
 
 }

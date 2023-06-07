@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.anyInt
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
@@ -40,13 +41,13 @@ class GetTouristSpotUseCaseTest {
 
     @Test
     fun `when getSpots called should return a flow with TouristSpots list`() = runTest {
-        `when`(repository.getSpots(anyInt())).thenReturn(
+        `when`(repository.getTopTouristSpots(anyString(), anyInt())).thenReturn(
             flowOf(touristSpotFake)
         )
 
         val result = getTouristSpotUseCase.invoke(anyInt())
 
-        verify(repository).getSpots(anyInt())
+        verify(repository).getTopTouristSpots(anyString(), anyInt())
 
         assertEquals(touristSpotFake, result.first())
     }

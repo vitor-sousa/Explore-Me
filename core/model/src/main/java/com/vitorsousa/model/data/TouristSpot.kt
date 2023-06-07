@@ -1,27 +1,23 @@
 package com.vitorsousa.model.data
 
-import androidx.annotation.DrawableRes
-import com.vitorsousa.model.R
-
 data class TouristSpot(
     val id: String,
     val name: String,
-    @DrawableRes
-    val imageRes: Int = R.drawable.img_rio_de_janeiro  //TODO: Change Default Image
+    val imageUrl: String
 ) {
 
     companion object {
         fun generateSampleList() = listOf(
-            TouristSpot("1", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("2", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("3", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("4", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("5", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("6", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("7", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("8", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("9", "Cristo", R.drawable.img_rio_de_janeiro),
-            TouristSpot("10", "Cristo", R.drawable.img_rio_de_janeiro),
+            TouristSpot("1", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("2", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("3", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("4", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("5", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("6", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("7", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("8", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("9", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
+            TouristSpot("10", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
         )
     }
 

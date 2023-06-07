@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,44 +27,38 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.vitorsousa.home.R
 import com.vitorsousa.model.data.City
 import com.vitorsousa.model.data.TouristSpot
+
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
-    val uiState = viewModel.state.value
 
-    when (uiState) {
-        is HomeViewModel.UiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
+    val touristSpotFeedState by viewModel.topTouristSpotFeedState.collectAsStateWithLifecycle()
+    val uiState by viewModel.headerState.collectAsStateWithLifecycle()
 
-        is HomeViewModel.UiState.Success -> {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                val touristSpotList by uiState.touristSpotList.collectAsStateWithLifecycle()
-                Header(city = uiState.city)
-                TopSpotSights(touristSpotList)
-            }
-        }
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        Header(headerUiState = uiState)
+        TopSpotSightsFeed(topTouristSpotFeedState = touristSpotFeedState)
     }
 
 }
@@ -72,41 +66,66 @@ fun HomeScreen(
 
 @Composable
 private fun Header(
-    city: City,
+    headerUiState: HeaderUiState,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter,
     ) {
-        Image(
-            modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = city.imageRes),
-            contentScale = ContentScale.Crop,
-            contentDescription = "image" // TODO: Write a correct description
-        )
-        Text(
-            text = city.name.uppercase(),
-            modifier = Modifier.padding(20.dp),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.ExtraBold,
-            color = MaterialTheme.colorScheme.primary,
-        )
+        when (headerUiState) {
+            is HeaderUiState.Loading -> {
+                CircularProgressIndicator()
+            }
+
+            is HeaderUiState.Success -> {
+                Image(
+                    modifier = Modifier.fillMaxWidth(),
+                    painter = painterResource(id = headerUiState.city.imageRes),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null
+                )
+                Text(
+                    text = headerUiState.city.name.uppercase(),
+                    modifier = Modifier.padding(20.dp),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            }
+        }
+
     }
 }
 
 @Composable
-fun TopSpotSights(
-    touristSpotList: List<TouristSpot>,
+fun TopSpotSightsFeed(
+    topTouristSpotFeedState: TopTouristSpotFeedState,
     modifier: Modifier = Modifier
 ) {
-    AnimatedVisibility(visible = touristSpotList.isNotEmpty(), enter = fadeIn()) {
-        Column(modifier = modifier.padding(vertical = 32.dp)) {
-            TopSpotTitle(
-                spotsSize = touristSpotList.size,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            SpotSightFeed(touristSpotList = touristSpotList)
+
+
+    when (topTouristSpotFeedState) {
+        is TopTouristSpotFeedState.Loading -> {
+            Row(
+                modifier = modifier
+                    .padding(vertical = 32.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        is TopTouristSpotFeedState.Success -> {
+            AnimatedVisibility(visible = topTouristSpotFeedState.feed.isNotEmpty(), enter = fadeIn()) {
+                Column(modifier = modifier.padding(vertical = 32.dp)) {
+                    TopSpotTitle(
+                        spotsSize = topTouristSpotFeedState.feed.size,
+                        modifier = Modifier.padding(horizontal = 24.dp)
+                    )
+                    SpotSightFeed(touristSpotList = topTouristSpotFeedState.feed)
+                }
+            }
         }
     }
 
@@ -158,37 +177,57 @@ fun SpotSightItem(
         modifier = modifier,
         contentAlignment = Alignment.TopCenter
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .height(200.dp)
                 .width(140.dp)
-                .clip(RoundedCornerShape(10.dp)),
-            painter = painterResource(id = touristSpot.imageRes),
+                .clip(RoundedCornerShape(20.dp)),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(touristSpot.imageUrl)
+                .crossfade(true)
+                .build(),
             contentScale = ContentScale.Crop,
-            contentDescription = "image", // TODO: Write a correct description
+            contentDescription = null,
+            placeholder = painterResource(com.vitorsousa.model.R.drawable.img_rio_de_janeiro),
         )
         Text(
             text = touristSpot.name,
             modifier = Modifier
                 .width(120.dp)
-                .padding(top = 24.dp)
+                .padding(top = 12.dp)
                 .padding(horizontal = 8.dp),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleMedium.copy(
+                shadow = Shadow(
+                    color = Color.LightGray,
+                    offset = Offset(2.0f, 2.0f),
+                    blurRadius = 2f
+                )
+            ),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            fontWeight = FontWeight.Bold
         )
     }
 }
 
-
-@Preview(showBackground = true, device = Devices.PIXEL_4_XL)
-@Composable
-private fun HomeScreenPreview() {
-    HomeScreen()
+sealed interface HeaderUiState {
+    object Loading : HeaderUiState
+    data class Success(val city: City) : HeaderUiState
 }
+
+sealed interface TopTouristSpotFeedState {
+    object Loading : TopTouristSpotFeedState
+    data class Success(val feed: List<TouristSpot>) : TopTouristSpotFeedState
+
+}
+
+
+//@Preview(showBackground = true, device = Devices.PIXEL_4_XL)
+//@Composable
+//private fun HomeScreenPreview() {
+//    HomeScreen()
+//}
 
 @Preview(showBackground = true, widthDp = 480)
 @Composable
@@ -196,7 +235,8 @@ private fun SpotSightItemPreview() {
     SpotSightItem(
         touristSpot = TouristSpot(
             id = "1",
-            name = "Cristo Redentor"
+            name = "Cristo Redentor",
+            imageUrl = ""
         )
     )
 }
