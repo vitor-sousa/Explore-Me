@@ -3,6 +3,7 @@ package com.vitorsousa.home.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vitorsousa.domain.GetCurrentCityUseCase
+import com.vitorsousa.domain.GetCurrentLanguageUseCase
 import com.vitorsousa.domain.GetTouristSpotUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,13 +15,14 @@ import javax.inject.Inject
 @Suppress("MagicNumber")
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    getCurrentLanguageUseCase: GetCurrentLanguageUseCase,
     getTouristSpotUseCase: GetTouristSpotUseCase,
     getCurrentCityUseCase: GetCurrentCityUseCase
 ) : ViewModel() {
 
     val headerState: StateFlow<HeaderUiState> =
         getCurrentCityUseCase.invoke()
-        .map(HeaderUiState::Success)
+            .map(HeaderUiState::Success)
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -29,7 +31,10 @@ class HomeViewModel @Inject constructor(
 
 
     val topTouristSpotFeedState: StateFlow<TopTouristSpotFeedState> =
-        getTouristSpotUseCase.invoke("pt", SPOTS_LIMIT)
+        getTouristSpotUseCase.invoke(
+            language = getCurrentLanguageUseCase.invoke(),
+            limit = SPOTS_LIMIT
+        )
             .map(TopTouristSpotFeedState::Success)
             .stateIn(
                 scope = viewModelScope,

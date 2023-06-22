@@ -22,7 +22,7 @@ class FirestoreTouristSpotDataSource @Inject constructor(
     override fun getTopTouristSpots(language: String, limit: Int): Flow<List<TouristSpot>> =
         db.collection(TOURIST_ATTRACTIONS)
             .document(RIO_DE_JANEIRO)
-            .collection(language)
+            .collection(language.lowercase())
             .limit(limit.toLong())
             .dataObjects<TouristAttractionRemote>().flowOn(dispatchers.io())
             .map { it.toTouristSpotList() }
