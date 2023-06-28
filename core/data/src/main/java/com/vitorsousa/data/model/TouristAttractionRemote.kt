@@ -6,11 +6,10 @@ import java.io.Serializable
 
 data class TouristAttractionRemote(
     @DocumentId
-    val id: String,
-    val name: String,
-    val imageUrl: String
+    val id: String = "",
+    val name: String = "",
+    val imageUrl: String = ""
 ) : Serializable {
-    constructor() : this("", "", "")
 
     companion object {
         private const val serialVersionUID = 1L
