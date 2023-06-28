@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "475906981183",
+    "project_id": "explore-me-3a2d4",
+    "storage_bucket": "explore-me-3a2d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475906981183:android:fb4365aede6317156de78a",
+        "android_client_info": {
+          "package_name": "com.vitorsousa.exploreme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyhhuVwDhLXhD8QFPduKZupJackvw96Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475906981183:android:adf9e2c4e4bec6d56de78a",
+        "android_client_info": {
+          "package_name": "com.vitorsousa.exploreme.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyhhuVwDhLXhD8QFPduKZupJackvw96Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475906981183:android:b3843772ba61bac76de78a",
+        "android_client_info": {
+          "package_name": "com.vitorsousa.exploreme.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyhhuVwDhLXhD8QFPduKZupJackvw96Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
