@@ -14,3 +14,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Explore Me"
 include ':app'
+include ':feature'
+include ':feature:home'
+include ':core'
+include ':core:data'
+include ':core:model'
+include ':core:domain'
+include ':core:testing'
+include ':feature:details'
