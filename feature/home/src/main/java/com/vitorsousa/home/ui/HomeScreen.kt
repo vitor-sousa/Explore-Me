@@ -3,6 +3,7 @@ package com.vitorsousa.home.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -39,8 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.vitorsousa.home.R
@@ -50,7 +51,8 @@ import com.vitorsousa.model.data.TouristSpot
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onTouristSpotClicked: (TouristSpot) -> Unit = {}
 ) {
 
     val touristSpotFeedState by viewModel.topTouristSpotFeedState.collectAsStateWithLifecycle()
@@ -58,7 +60,10 @@ fun HomeScreen(
 
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Header(headerUiState = uiState)
-        TopSpotSightsFeed(topTouristSpotFeedState = touristSpotFeedState)
+        TopSpotSightsFeed(
+            topTouristSpotFeedState = touristSpotFeedState,
+            onTouristSpotClicked = onTouristSpotClicked
+        )
     }
 
 }
@@ -80,7 +85,7 @@ private fun Header(
 
             is HeaderUiState.Success -> {
                 Image(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.height(200.dp).fillMaxWidth(),
                     painter = painterResource(id = headerUiState.city.imageRes),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
@@ -100,7 +105,8 @@ private fun Header(
 @Composable
 fun TopSpotSightsFeed(
     topTouristSpotFeedState: TopTouristSpotFeedState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onTouristSpotClicked: (TouristSpot) -> Unit = {}
 ) {
 
 
@@ -123,7 +129,10 @@ fun TopSpotSightsFeed(
                         spotsSize = topTouristSpotFeedState.feed.size,
                         modifier = Modifier.padding(horizontal = 24.dp)
                     )
-                    SpotSightFeed(touristSpotList = topTouristSpotFeedState.feed)
+                    SpotSightFeed(
+                        touristSpotList = topTouristSpotFeedState.feed,
+                        onTouristSpotClicked = onTouristSpotClicked
+                    )
                 }
             }
         }
@@ -151,6 +160,7 @@ fun SpotSightFeed(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
     touristSpotList: List<TouristSpot>,
+    onTouristSpotClicked: (TouristSpot) -> Unit = {}
 ) {
     LazyRow(
         modifier = modifier.padding(top = 12.dp),
@@ -162,7 +172,10 @@ fun SpotSightFeed(
             items = touristSpotList,
             key = { it.id },
             itemContent = { item ->
-                SpotSightItem(item)
+                SpotSightItem(
+                    touristSpot = item,
+                    onTouristSpotClicked = onTouristSpotClicked
+                )
             }
         )
     }
@@ -170,8 +183,9 @@ fun SpotSightFeed(
 
 @Composable
 fun SpotSightItem(
+    modifier: Modifier = Modifier,
     touristSpot: TouristSpot,
-    modifier: Modifier = Modifier
+    onTouristSpotClicked: (TouristSpot) -> Unit = {}
 ) {
     Box(
         modifier = modifier,
@@ -179,11 +193,13 @@ fun SpotSightItem(
     ) {
         AsyncImage(
             modifier = Modifier
-                .height(200.dp)
-                .width(140.dp)
-                .clip(RoundedCornerShape(20.dp)),
+                .height(100.dp)
+                .width(100.dp)
+                .clip(CircleShape)
+                .clickable { onTouristSpotClicked.invoke(touristSpot) },
             model = ImageRequest.Builder(LocalContext.current)
                 .data(touristSpot.imageUrl)
+                .error(com.vitorsousa.model.R.drawable.img_rio_de_janeiro)
                 .crossfade(true)
                 .build(),
             contentScale = ContentScale.Crop,
@@ -193,8 +209,8 @@ fun SpotSightItem(
         Text(
             text = touristSpot.name,
             modifier = Modifier
-                .width(120.dp)
-                .padding(top = 12.dp)
+                .width(90.dp)
+                .padding(top = 10.dp)
                 .padding(horizontal = 8.dp),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleMedium.copy(
@@ -204,7 +220,7 @@ fun SpotSightItem(
                     blurRadius = 2f
                 )
             ),
-            maxLines = 2,
+            maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold
         )

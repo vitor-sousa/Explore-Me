@@ -1,12 +1,15 @@
 package com.vitorsousa.model.data
 
+import java.io.Serializable
+
 data class TouristSpot(
     val id: String,
     val name: String,
     val imageUrl: String
-) {
+): Serializable {
 
     companion object {
+        private const val serialVersionUID = 1L
         fun generateSampleList() = listOf(
             TouristSpot("1", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),
             TouristSpot("2", "Cristo", "https://cdn.limber.net.br/img/bilhetes/3073/3073-CFwXwozTS6.jpeg"),

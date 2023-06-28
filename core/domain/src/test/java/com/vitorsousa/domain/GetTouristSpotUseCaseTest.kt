@@ -45,7 +45,7 @@ class GetTouristSpotUseCaseTest {
             flowOf(touristSpotFake)
         )
 
-        val result = getTouristSpotUseCase.invoke(anyInt())
+        val result = getTouristSpotUseCase.invoke(anyString(), anyInt())
 
         verify(repository).getTopTouristSpots(anyString(), anyInt())
 
